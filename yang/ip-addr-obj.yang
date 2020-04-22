@@ -1,0 +1,90 @@
+module ip-addr-obj {
+    yang-version 1;
+    namespace "hyperion:rules:yang:ip-addr-obj";
+    prefix "ip-addr-obj";
+
+    organization "qianxin";
+
+    import ietf-inet-types {
+        prefix "inet";
+        revision-date "2013-07-15";
+    }
+
+
+    import obj-key {
+        prefix obj-key;
+        revision-date "2020-01-15";
+    }
+
+    description
+        "ip address object.";
+
+    revision "2020-01-15" {
+        description "Initial revision of ip address object model";
+    }
+
+    grouping ip-set {
+        choice ip {
+            case ip-host {
+                leaf host {
+                    type inet:host;
+                }
+            }
+            case ip-range {
+                leaf begin {
+                    type inet:ip-address;
+                }
+                leaf end {
+                    type inet:ip-address;
+                }
+            }
+            case subnet {
+                leaf ip-addr {
+                    type inet:ip-address;
+                }
+                leaf mask {
+                    type inet:ip-address;
+                }
+            }
+            case wildcard {
+                leaf ip-addr {
+                    type inet:ip-address;
+                }
+                leaf wildcard-mask {
+                    type inet:ip-address;
+                }
+            }
+        }
+    }
+
+    grouping ip-addr-obj {
+        uses obj-key;
+        list inclusion {
+            uses ip-set;
+        }
+        list exclusion {
+            uses ip-set;
+        }
+        list children {
+            uses obj-key;
+        }
+    }
+
+    container ip-addr-container {
+        list ip-addr-objs {
+            uses ip-addr-obj;
+        }
+    }
+
+    rpc get {
+        output {
+            uses ip-addr-container;
+        }
+    }
+
+    rpc edit {
+        input {
+            uses ip-addr-container;
+        }
+    }
+}

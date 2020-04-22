@@ -1,0 +1,83 @@
+module Acl {
+    yang-version 1;
+    namespace "hyperion:rules:yang:acl";
+    prefix "Acl";
+
+    organization "qianxin";
+
+    import obj-key {
+        prefix obj-key;
+        revision-date "2020-01-15";
+    }
+
+    import zone {
+        prefix zone;
+        revision-date "2020-01-15";
+    }
+
+    import ip-addr-obj {
+        prefix ip-addr-obj;
+        revision-date "2020-01-15";
+    }
+
+    import svr-obj {
+        prefix svr-obj;
+        revision-date "2020-01-15";
+    }
+
+    description
+        "acl rules.";
+
+    revision "2020-01-15" {
+        description "Initial revision of acl rules model";
+    }
+
+    grouping acl {
+        uses obj-key;
+        list src-zone {
+            uses obj-key;
+        }
+        list dst-zone {
+            uses obj-key;
+        }
+        list service {
+            uses obj-key;
+        }
+        list src-address {
+            uses obj-key;
+        }
+        list dst-address {
+            uses obj-key;
+        }
+        leaf action {
+            type enumeration {
+                enum permit;
+                enum deny;
+            }
+        }
+        leaf log {
+            type boolean;
+        }
+    }
+
+    container acl-container {
+        uses zone-container;
+        uses ip-addr-container;
+        uses svr-container;
+        list acls {
+            uses acl;
+        }
+    }
+
+    rpc get {
+        output {
+            uses acl-container;
+        }
+    }
+
+    rpc edit {
+        input {
+            uses acl-container;
+        }
+    }
+}

@@ -1,0 +1,26 @@
+module obj-key {
+    yang-version 1;
+    namespace "hyperion:rules:yang:key";
+    prefix "key";
+
+    organization "qianxin";
+
+    description
+        "object key.";
+
+    revision "2020-01-15" {
+        description "Initial revision of object key model";
+    }
+
+    grouping obj-key {
+        leaf name {
+            type string;
+        }
+        leaf typ {
+            type string;
+        }
+        leaf id {
+            type string;
+        }
+    }
+}

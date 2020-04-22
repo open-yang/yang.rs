@@ -1,0 +1,90 @@
+module svr-obj {
+    yang-version 1;
+    namespace "hyperion:rules:yang:service";
+    prefix "service";
+
+    organization "qianxin";
+
+    import obj-key {
+        prefix obj-key;
+        revision-date "2020-01-15";
+    }
+
+    description
+        "ip address object.";
+
+    revision "2020-01-15" {
+        description "Initial revision of ip address object model";
+    
+    typedef num-set {
+        type union {
+            type uint32;
+            type string;
+        }
+    }
+
+    grouping port-pair {
+        list source {
+            type num-set;
+        }
+        list dest {
+            type num-set;
+        }
+    }
+
+    grouping control-messages {
+        leaf typ {
+            type uint8;
+        }
+        leaf code {
+            type num-set;
+        }
+    }
+
+
+    grouping svr-obj {
+        uses obj-key;
+        list protocols {
+            choice protocol {
+                case ip {
+                    leaf number {
+                        type uint32;
+                    }
+                }
+                case tcp {
+                    uses port-pair;
+                }
+                case udp {
+                    uses port-pair;
+                }
+                case icmp {
+                    uses control-messages;
+                }
+                case icmpv6 {
+                    uses control-messages;
+                }
+            }
+        }
+        list children {
+            uses obj-key;
+        }
+    }
+
+    container svr-obj-container {
+        list svr-objs {
+            uses svr-obj;
+        }
+    }
+
+    rpc get {
+        output {
+            uses svr-obj-container;
+        }
+    }
+
+    rpc edit {
+        input {
+            uses svr-obj-container;
+        }
+    }
+}

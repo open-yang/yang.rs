@@ -1,0 +1,43 @@
+module zone {
+    yang-version 1;
+    namespace "hyperion:rules:yang:zone";
+    prefix "zone";
+
+    organization "qianxin";
+
+    import obj-key {
+        prefix obj-key;
+        revision-date "2020-01-15";
+    }
+
+    description
+        "security zone object.";
+
+    revision "2020-01-15" {
+        description "Initial revision of security zone object object model";
+
+    grouping zone {
+        uses obj-key;
+        leaf-list interfaces {
+            type string;
+        }
+    }
+
+    container zone-container {
+        list zones {
+            uses zone;
+        }
+    }
+
+    rpc get {
+        output {
+            uses zone-container;
+        }
+    }
+
+    rpc edit {
+        input {
+            uses zone-container;
+        }
+    }
+}
