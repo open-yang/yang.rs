@@ -3,18 +3,18 @@ module svr-obj {
     namespace "hyperion:rules:yang:service";
     prefix "service";
 
-    organization "qianxin";
-
     import obj-key {
         prefix obj-key;
         revision-date "2020-01-15";
     }
 
-    description
-        "ip address object.";
+    organization "tencent";
+
+    description "ip address object.";
 
     revision "2020-01-15" {
         description "Initial revision of ip address object model";
+    }
     
     typedef num-set {
         type union {
@@ -24,10 +24,10 @@ module svr-obj {
     }
 
     grouping port-pair {
-        list source {
+        leaf-list source {
             type num-set;
         }
-        list dest {
+        leaf-list dest {
             type num-set;
         }
     }
@@ -41,9 +41,8 @@ module svr-obj {
         }
     }
 
-
     grouping svr-obj {
-        uses obj-key;
+        uses obj-key:obj-key;
         list protocols {
             choice protocol {
                 case ip {
@@ -52,39 +51,52 @@ module svr-obj {
                     }
                 }
                 case tcp {
-                    uses port-pair;
+                    container tcp {
+                        uses port-pair;
+                    }
                 }
                 case udp {
-                    uses port-pair;
+                    container udp {
+                        uses port-pair;
+                    }
                 }
                 case icmp {
-                    uses control-messages;
+                    container icmp {
+                        uses control-messages;
+                    }
+                    
                 }
                 case icmpv6 {
-                    uses control-messages;
+                    container icmpv6 {
+                        uses control-messages;
+                    }
                 }
             }
         }
         list children {
-            uses obj-key;
+            uses obj-key:obj-key;
         }
     }
 
-    container svr-obj-container {
+     grouping svr-objs {
         list svr-objs {
             uses svr-obj;
         }
     }
 
+    container svr-obj-container {
+        uses svr-objs;
+    }
+
     rpc get {
         output {
-            uses svr-obj-container;
+            uses svr-objs;
         }
     }
 
     rpc edit {
         input {
-            uses svr-obj-container;
+            uses svr-objs;
         }
     }
 }

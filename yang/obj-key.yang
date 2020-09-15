@@ -3,7 +3,7 @@ module obj-key {
     namespace "hyperion:rules:yang:key";
     prefix "key";
 
-    organization "qianxin";
+    organization "tencent";
 
     description
         "object key.";

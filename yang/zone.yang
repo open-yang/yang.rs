@@ -3,41 +3,46 @@ module zone {
     namespace "hyperion:rules:yang:zone";
     prefix "zone";
 
-    organization "qianxin";
-
     import obj-key {
         prefix obj-key;
         revision-date "2020-01-15";
     }
+
+    organization "tencent";
 
     description
         "security zone object.";
 
     revision "2020-01-15" {
         description "Initial revision of security zone object object model";
+    }
 
     grouping zone {
-        uses obj-key;
+        uses obj-key:obj-key;
         leaf-list interfaces {
             type string;
         }
     }
 
-    container zone-container {
+    grouping zones {
         list zones {
             uses zone;
         }
     }
 
+    container zone-container {
+        uses zones;
+    }
+
     rpc get {
         output {
-            uses zone-container;
+            uses zones;
         }
     }
 
     rpc edit {
         input {
-            uses zone-container;
+            uses zones;
         }
     }
 }

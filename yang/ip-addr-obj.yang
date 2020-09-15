@@ -3,21 +3,19 @@ module ip-addr-obj {
     namespace "hyperion:rules:yang:ip-addr-obj";
     prefix "ip-addr-obj";
 
-    organization "qianxin";
-
     import ietf-inet-types {
         prefix "inet";
         revision-date "2013-07-15";
     }
-
 
     import obj-key {
         prefix obj-key;
         revision-date "2020-01-15";
     }
 
-    description
-        "ip address object.";
+    organization "tencent";
+
+    description "ip address object.";
 
     revision "2020-01-15" {
         description "Initial revision of ip address object model";
@@ -39,26 +37,31 @@ module ip-addr-obj {
                 }
             }
             case subnet {
-                leaf ip-addr {
-                    type inet:ip-address;
+                container subnet {
+                    leaf ip-addr {
+                        type inet:ip-address;
+                    }
+                    leaf mask {
+                        type inet:ip-address;
+                    }
                 }
-                leaf mask {
-                    type inet:ip-address;
-                }
+                
             }
             case wildcard {
-                leaf ip-addr {
-                    type inet:ip-address;
-                }
-                leaf wildcard-mask {
-                    type inet:ip-address;
+                container wildcard {
+                    leaf ip-addr {
+                        type inet:ip-address;
+                    }
+                    leaf wildcard {
+                        type inet:ip-address;
+                    }
                 }
             }
         }
     }
 
     grouping ip-addr-obj {
-        uses obj-key;
+        uses obj-key:obj-key;
         list inclusion {
             uses ip-set;
         }
@@ -66,25 +69,29 @@ module ip-addr-obj {
             uses ip-set;
         }
         list children {
-            uses obj-key;
+            uses obj-key:obj-key;
         }
     }
 
-    container ip-addr-container {
+    grouping ip-addr-objs {
         list ip-addr-objs {
             uses ip-addr-obj;
         }
     }
 
+    container ip-addr-container {
+        uses ip-addr-objs;
+    }
+
     rpc get {
         output {
-            uses ip-addr-container;
+            uses ip-addr-objs;
         }
     }
 
     rpc edit {
         input {
-            uses ip-addr-container;
+            uses ip-addr-objs;
         }
     }
 }

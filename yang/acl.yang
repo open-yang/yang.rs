@@ -3,8 +3,6 @@ module Acl {
     namespace "hyperion:rules:yang:acl";
     prefix "Acl";
 
-    organization "qianxin";
-
     import obj-key {
         prefix obj-key;
         revision-date "2020-01-15";
@@ -25,6 +23,8 @@ module Acl {
         revision-date "2020-01-15";
     }
 
+    organization "tencent";
+
     description
         "acl rules.";
 
@@ -33,21 +33,21 @@ module Acl {
     }
 
     grouping acl {
-        uses obj-key;
+        uses obj-key:obj-key;
         list src-zone {
-            uses obj-key;
+            uses obj-key:obj-key;
         }
         list dst-zone {
-            uses obj-key;
+            uses obj-key:obj-key;
         }
         list service {
-            uses obj-key;
+            uses obj-key:obj-key;
         }
         list src-address {
-            uses obj-key;
+            uses obj-key:obj-key;
         }
         list dst-address {
-            uses obj-key;
+            uses obj-key:obj-key;
         }
         leaf action {
             type enumeration {
@@ -60,24 +60,28 @@ module Acl {
         }
     }
 
-    container acl-container {
-        uses zone-container;
-        uses ip-addr-container;
-        uses svr-container;
+    grouping acls {
+        uses zone:zones;
+        uses ip-addr-obj:ip-addr-objs;
+        uses svr-obj:svr-objs;
         list acls {
             uses acl;
         }
     }
 
+    container acl-container {
+        uses acls;
+    }
+
     rpc get {
         output {
-            uses acl-container;
+            uses acls;
         }
     }
 
     rpc edit {
         input {
-            uses acl-container;
+            uses acls;
         }
     }
 }
