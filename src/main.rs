@@ -1,24 +1,34 @@
-extern crate clap;
-use clap::{Arg, App, SubCommand};
+use clap::{App, Arg, SubCommand};
 
 fn main() {
     let matches = App::new("yang")
-                          .version("1.0")
-                          .author("Carlos Wu.")
-                          .about("Does awesome things")
-                          .subcommand(SubCommand::with_name("gen")
-                                      .about("Generating rust source code through Yang files")
-                                      .version("1.0")
-                                      .arg(Arg::with_name("debug")
-                                          .short("d")
-                                          .help("print debug information verbosely")))
-                          .get_matches();
-
+        .version("1.0")
+        .about("Yang CLI")
+        .author("Carlos Wu. <wuanxiang@outlook.com>")
+        .subcommand(
+            SubCommand::with_name("gen")
+                .about("Generate source code of programming language through Yang files")
+                .version("1.0")
+                .arg(
+                    Arg::with_name("language")
+                        .long("language")
+                        .short("l")
+                        .takes_value(true)
+                        .possible_values(&["Rust", "Java", "Golang"])
+                        .default_value("Rust")
+                        .help("Set programming language. If not, the default is Rust"),
+                )
+                .arg(
+                    Arg::with_name("dir")
+                        .value_name("Yang files directory")
+                        .help("Set the input directory to use.")
+                        .required(true)
+                        .index(1),
+                ),
+        )
+        .get_matches();
     if let Some(matches) = matches.subcommand_matches("gen") {
-        if matches.is_present("debug") {
-            println!("Printing debug info...");
-        } else {
-            println!("Printing normally...");
-        }
+        println!("Value for language: {}", matches.value_of("language").unwrap());
+        println!("Value for dir: {}", matches.value_of("dir").unwrap());
     }
 }
