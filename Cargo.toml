@@ -11,3 +11,4 @@ path = "src/lib.rs"
 
 [dependencies]
 clap = "2.33.3"
+nom  = "5.1.2"
