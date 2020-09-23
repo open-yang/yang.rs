@@ -1,4 +1,6 @@
 use clap::{App, Arg, SubCommand};
+use std::path::Path;
+use yang::cmd::generate::{parse_yang};
 
 fn main() {
     let matches = App::new("yang")
@@ -30,5 +32,8 @@ fn main() {
     if let Some(matches) = matches.subcommand_matches("gen") {
         println!("Value for language: {}", matches.value_of("language").unwrap());
         println!("Value for dir: {}", matches.value_of("dir").unwrap());
+        if let Err(err) = parse_yang(Path::new(matches.value_of("dir").unwrap())) {
+            println!("error {}", err);
+        }
     }
 }
