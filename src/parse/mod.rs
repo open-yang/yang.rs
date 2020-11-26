@@ -6,13 +6,7 @@ use nom::{
     sequence::tuple,
     IResult,
 };
-
-#[derive(Debug, PartialEq)]
-pub struct Color {
-    pub red: u8,
-    pub green: u8,
-    pub blue: u8,
-}
+use crate::model::module::Module;
 
 #[allow(dead_code)]
 fn from_hex(input: &str) -> Result<u8, std::num::ParseIntError> {
@@ -30,11 +24,11 @@ fn hex_primary(input: &str) -> IResult<&str, u8> {
 }
 
 #[allow(dead_code)]
-fn hex_color(input: &str) -> IResult<&str, Color> {
+fn hex_color(input: &str) -> IResult<&str, Module> {
     let (input, _) = tag("#")(input)?;
     let (input, (red, green, blue)) = tuple((hex_primary, hex_primary, hex_primary))(input)?;
 
-    Ok((input, Color { red, green, blue }))
+    Ok((input, Module::default()))
 }
 
 #[cfg(test)]
