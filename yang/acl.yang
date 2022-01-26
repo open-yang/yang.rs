@@ -1,4 +1,4 @@
-module Acl {
+module Acl_Ls {
     yang-version 1;
     namespace "hyperion:rules:yang:acl";
     prefix "Acl";

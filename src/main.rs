@@ -1,4 +1,4 @@
-use clap::{App, Arg, SubCommand};
+use clap::{App, Arg};
 use std::path::Path;
 use yang::cmd::generate::parse_yang;
 
@@ -8,11 +8,11 @@ fn main() {
         .about("Yang CLI")
         .author("Carlos Wu. <wuanxiang@outlook.com>")
         .subcommand(
-            SubCommand::with_name("gen")
+            App::new("gen")
                 .about("Generate source code of programming language through Yang files")
                 .version("1.0")
                 .arg(
-                    Arg::with_name("language")
+                    Arg::new("language")
                         .long("language")
                         .short('l')
                         .takes_value(true)
@@ -21,7 +21,7 @@ fn main() {
                         .help("Set programming language. If not, the default is Rust"),
                 )
                 .arg(
-                    Arg::with_name("dir")
+                    Arg::new("dir")
                         .value_name("Yang files directory")
                         .help("Set the input directory to use.")
                         .required(true)
