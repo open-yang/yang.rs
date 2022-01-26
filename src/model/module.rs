@@ -1,5 +1,6 @@
 use getset::{Getters, Setters};
 
+#[allow(dead_code)]
 #[derive(Getters, Setters, Default)]
 pub struct Module {
     name: String,
@@ -12,12 +13,14 @@ pub struct Module {
     import: Vec<Import>,
 }
 
+#[allow(dead_code)]
 #[derive(Getters, Setters, Default)]
 pub struct Import {
     prefix: String,
     revision: String,
 }
 
+#[allow(dead_code)]
 #[derive(Getters, Setters, Default)]
 pub struct Revision {
     name: String,

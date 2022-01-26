@@ -14,7 +14,7 @@ fn main() {
                 .arg(
                     Arg::with_name("language")
                         .long("language")
-                        .short("l")
+                        .short('l')
                         .takes_value(true)
                         .possible_values(&["Rust", "Java", "Golang"])
                         .default_value("Rust")

@@ -10,6 +10,6 @@ path = "src/lib.rs"
 
 
 [dependencies]
-clap = "2.33.3"
-nom  = "5.1.2"
-getset = "0.1.1"
+clap = "3.0.12"
+nom  = "7.1.0"
+getset = "0.1.2"
